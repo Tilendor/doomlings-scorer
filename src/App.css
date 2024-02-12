@@ -1,5 +1,13 @@
-.App {
-  text-align: center;
+* { font-size: 14px; }
+
+
+.scoreboard th, .scoreboard td { text-align: center; }
+
+.scoreboard tbody th, .scoreboard tfoot th { text-align: right; width: 150px;}
+
+.tabs .active { border: 1px solid black; background: cadetblue;}
+/*.App {
+
 }
 
 .App-logo {
@@ -36,3 +44,6 @@
     transform: rotate(360deg);
   }
 }
+
+table tr, table tr td { border: 1px solid white; }
+*/
