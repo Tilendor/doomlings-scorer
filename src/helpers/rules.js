@@ -4,7 +4,7 @@ export function bonusByColor(bonus, color, cards) {
 
 export function matches(match, card) {
   return Object.keys(match).reduce((pass, key) => {
-    return pass && match[key] == card[key]
+    return pass && match[key] === card[key]
   }, true)
 }
 export function bonusWhenMatches(bonus, match, cards) {

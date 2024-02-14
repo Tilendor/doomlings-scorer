@@ -1,4 +1,4 @@
-import { bonusByColor, matches, bonusWhenMatches, countUniqueColors, allColors } from "../helpers/rules";
+import { bonusByColor, bonusWhenMatches, countUniqueColors, allColors } from "../helpers/rules";
 import { applyDefaults } from "../helpers/utils";
 
 
@@ -15,7 +15,8 @@ import { applyDefaults } from "../helpers/utils";
     { type: 'action|active|instant|reaction|bonus score|condition|end of world|out of turn',
       text: '',
       choices: [],
-      target: 'all|self|opponents' 
+      genePoolMod: 1,
+      target: 'all|self|opponents'
     },
   ],
   bonusScore: (currentPlayer, otherPlayers, choice) => { return 0 }
@@ -80,7 +81,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
     flavorText: "Are these scales balanced? I can't see a thing!",
     faceValue: 2,
     effects: [
-      { type: 'active', text: "+1 Gene Pool" }
+      { type: 'active', text: "+1 Gene Pool", genePoolMod: 1 }
     ]
   },
   {
@@ -104,7 +105,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
     flavorText: "An organelle resembling the worst hole on a miniature golf course.",
     faceValue: 1,
     effects: [
-      { type: 'active', text: "+1 Gene Pool" }
+      { type: 'active', text: "+1 Gene Pool", genePoolMod: 1 }
     ]
   },
   {
@@ -229,7 +230,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
         flavorText: 'Blend in with the wilderness or stand out at a wedding.',
         faceValue: 1,
         effects: [
-          { type: 'active', text: "+1 Gene Pool" },
+          { type: 'active', text: "+1 Gene Pool", genePoolMod: 1 },
           { type: 'bonus score', text: "+1 for each card in your hand." }
         ],
         bonusScore: (currentPlayer) => {
@@ -281,7 +282,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
       flavorText: "Ah...AH...AH...false alarm, I thought I was gon--CHOO!",
       faceValue: 2,
       effects: [
-        { type: 'active', text: "All players receive: -1 Gene Pool (Including yourself.)" }
+        { type: 'active', text: "All players receive: -1 Gene Pool (Including yourself.)", genePoolMod: -1, target: "all" }
       ]
     },
     {
@@ -305,7 +306,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
       flavorText: "A source of income when you're a child.",
       faceValue: 1,
       effects: [
-        { type: 'active', text: "+1 Gene Pool"}
+        { type: 'active', text: "+1 Gene Pool", genePoolMod: 1}
       ]
     },
     {
@@ -358,7 +359,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
       flavorText: "Someday, I'll be more than just a purple ball.",
       faceValue: 1,
       effects: [
-        { type: 'active', text: "+1 Gene Pool" }
+        { type: 'active', text: "+1 Gene Pool", genePoolMod: 1 }
       ]
     },
     {
@@ -489,7 +490,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
       flavorText: 'Once you pop...',
       faceValue: 1,
       effects: [
-        { type: 'active', text: '+1 Gene Pool' }
+        { type: 'active', text: '+1 Gene Pool', genePoolMod: 1 }
       ]
     },
     {
@@ -548,7 +549,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
       bonusScore: (currentPlayer, otherPlayers) => {
         return [currentPlayer, ...otherPlayers]
           .flatMap((player) => player.traitPile)
-          .filter((card) => card.name == 'Swarm')
+          .filter((card) => card.name === 'Swarm')
           .length
       }
     },
@@ -617,7 +618,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
       flavorText: "Wreck yourself before you check yourself bro!",
       faceValue: 4,
       effects: [
-        { type: 'active', text: '-1 Gene Pool' }
+        { type: 'active', text: '-1 Gene Pool', genePoolMod: -1 }
       ]
     },
     {
@@ -710,7 +711,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
         { type: 'bonus score', text: "Value is equal to the number of Kidneys in your trait pile. (Including this one.)"}
       ],
       bonusScore: (currentPlayer) => {
-        return currentPlayer.traitPile.filter(card => card.name == 'Kidney').length
+        return currentPlayer.traitPile.filter(card => card.name === 'Kidney').length
       }
     },
     {
@@ -718,7 +719,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
       flavorText: "Are you trying to boil my blood?",
       faceValue: -1,
       effects: [
-        { type: 'active', text: '+2 Gene Pool' }
+        { type: 'active', text: '+2 Gene Pool', genePoolMod: 2 }
       ]
     },
     {
@@ -804,7 +805,7 @@ const cards = applyDefaults({ deck: 'Base', quantity: 1, faceValue: 0 }, [
       flavorText: "The stuff that drools are made of.",
       faceValue: 1,
       effects: [
-        { type: 'active', text: '+1 Gene Pool' }
+        { type: 'active', text: '+1 Gene Pool', genePoolMod: 1 }
       ]
     },
     {

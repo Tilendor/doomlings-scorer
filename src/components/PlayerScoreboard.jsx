@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { Table, Button, Row, Container} from 'react-bootstrap'
+import { getGenePoolMod } from '../helpers/utils'
+import React from 'react'
+import { Table, Button, Container} from 'react-bootstrap'
 
 //import TodoItem from ‘./TodoItem’;
 
@@ -10,8 +11,18 @@ function PlayerScoreBoard({players, setPlayers, playedCatastrophes}) {
 
   const endOfWorld = playedCatastrophes.at(-1)
 
+  const allCards = players.flatMap(p => p.traitPile).filter(card => card.effects && card.effects.filter(effect => effect.target === 'all'))
+
+  for(const player of players) {
+    let genePool = player.traitPile.reduce((size, card) => {
+      return size + getGenePoolMod(card, false)
+    }, 5)
+    genePool += playedCatastrophes.reduce((gp, catastrophe) => {return gp + catastrophe.genePoolMod}, 0)
+    genePool += allCards.reduce((gp, card) => { return gp + getGenePoolMod(card, true)}, 0)
+    player.genePool = genePool
+  }
   const scores = players.map(player => {
-    const otherPlayers = players.filter(p => p.name != player.name)
+    const otherPlayers = players.filter(p => p.name !== player.name)
     const score = {
       faceValue: player.traitPile.reduce((sum, card) => {
         return sum + card.faceValue
@@ -25,22 +36,10 @@ function PlayerScoreBoard({players, setPlayers, playedCatastrophes}) {
     return score
   })
 
-  /*for(const player of players){
-    player.score.faceValue = player.traitPile.reduce((sum, card) => {
-      return sum + card.faceValue
-    }, 0)
-    const otherPlayers = players.filter(p => p.name != player.name)
-    player.score.bonus = player.traitPile.filter(card => card.bonusScore).reduce((sum, card) => {
-      return sum + card.bonusScore(player, otherPlayers, card.choice)
-    }, 0)
-    player.score.endOfWorld = (endOfWorld && endOfWorld.score) ? endOfWorld.score(player, otherPlayers, 0) : 0
-    player.score.final = player.score.faceValue + player.score.bonus + player.score.endOfWorld
-  }*/
-
   return (
     <Container className="sticky-top">
       <div style={{fontSize: "20px"}}>
-      {players.length == 0
+      {players.length === 0
         ? (<span> No players</span>)
         : (<Table className={"scoreboard"}>
             <thead>

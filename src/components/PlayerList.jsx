@@ -8,8 +8,8 @@ const playerDefaults = {
   hand: [],
   score: {
     faceValue: 0,
-    bonus: 1,
-    endOfWorld: 2,
+    bonus: 0,
+    endOfWorld: 0,
     final: 0
   }
 }

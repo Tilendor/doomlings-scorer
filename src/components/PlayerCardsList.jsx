@@ -1,6 +1,5 @@
 import cards, { mappedCards } from '../models/Cards'
 import React, {useState} from "react";
-import { allColors } from '../helpers/rules'
 import {cardsByColor, chunk} from "../helpers/utils";
 import { Container, Row, Col, Stack, Form} from "react-bootstrap";
 import TraitCard from "./TraitCard";
@@ -11,7 +10,6 @@ function PlayerCardList({players, setPlayers}) {
   const [usedCards, setUsedCards] = useState({})
   const [step, setStep] = useState({index: 0, step: 'hand'})
   const [currentPlayer, setCurrentPlayer] = useState(players[0])
-  const [genePool, setGenePool] = useState(players[0].genePool)
   const matchedCards = cards.filter(card =>
     card.name.includes(search)
   )
@@ -27,14 +25,6 @@ function PlayerCardList({players, setPlayers}) {
     console.log('setPlayer')
     setCurrentPlayer({ ...players[index]})
     setStep({ index: index, step: 'hand'})
-    setGenePool(players[index].genePool)
-  }
-
-  function setPlayerGenePool(index, value) {
-    console.log("setPlayerGenePool")
-    setGenePool(value)
-    players[index].genePool = value
-    setPlayers([...players])
   }
 
   function addToPile(name) {
@@ -73,14 +63,13 @@ function PlayerCardList({players, setPlayers}) {
     <Container>
       <Stack direction="horizontal" gap={15} className="tabs">
         {players.map((player, index) => (<>
-          <div className={`p-2 ${index == step.index ? 'active' : ''}`} onClick={() => setPlayer(index)}><h1>{player.name}</h1></div>
+          <div className={`p-2 ${index === step.index ? 'active' : ''}`} onClick={() => setPlayer(index)}><h1>{player.name}</h1></div>
           <div className="vr"> </div>
         </>))}
       </Stack>
       <Stack direction="horizontal" gap={5} className="tabs">
         <div className="pe-5">
           <Form.Label htmlFor="genePool" >Gene Pool {currentPlayer.genePool}</Form.Label>
-          <Form.Control type="text" id="genePool" value={genePool}  onChange={(e) => setPlayerGenePool(step.index, e.target.value)}></Form.Control>
         </div>
       </Stack>
       <span>

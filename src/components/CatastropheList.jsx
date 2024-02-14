@@ -1,9 +1,9 @@
-import { chunk} from "../helpers/utils";
+import { chunk, revert } from "../helpers/utils";
 import catastrophes from "../models/Catastrophes";
 import { Container, Row, Col } from "react-bootstrap";
 import CatastropheCard from "./CatastropheCard";
 
-function CatastropheList({show, playedCatastrophes, setPlayedCatastrophes}) {
+function CatastropheList({playedCatastrophes, setPlayedCatastrophes, players, setPlayers}) {
 
   function addCatastrophe(name) {
     setPlayedCatastrophes([
@@ -14,7 +14,13 @@ function CatastropheList({show, playedCatastrophes, setPlayedCatastrophes}) {
   }
 
   function removeCatastrophe(name) {
+    const card = playedCatastrophes.find(c => c.name === name)
+    if (card?.revert) {
+      revert(name, players)
+      setPlayers([...players])
+    }
     setPlayedCatastrophes([...playedCatastrophes.filter(c => c.name !== name)])
+
   }
   const firstAge = playedCatastrophes.length > 0 ? playedCatastrophes[0] : null
   const secondAge = playedCatastrophes.length > 1 ? playedCatastrophes[1] : null

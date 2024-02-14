@@ -12,7 +12,7 @@ function App() {
 
   return (
     <div className="App">
-      <div class="jumbotron">
+      <div className="jumbotron">
         <h1>Doomlings Score Calculator</h1>
         <p>Sometimes math is hard.</p>
       </div>
@@ -23,7 +23,7 @@ function App() {
       }
 
       {players.length > 0 ?
-        <CatastropheList playedCatastrophes={playedCatastrophes} setPlayedCatastrophes={setPlayedCatastrophes} />
+        <CatastropheList playedCatastrophes={playedCatastrophes} setPlayedCatastrophes={setPlayedCatastrophes} players={players} setPlayers={setPlayers}/>
         : ''
       }
       {players.length > 0 ?
